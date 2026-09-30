@@ -1,0 +1,75 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Syntax check (Node ${{ matrix.node }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # 20.3 is the floor because the host half uses AbortSignal.any.
+        node: ['20.3', '22', '24']
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+
+      # The package has no dependencies, so there is deliberately no install
+      # step. `npm run check` is plain `node --check` over every source file.
+      - name: Syntax check
+        run: npm run check
+
+  package:
+    name: Package is publishable
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Assert zero runtime dependencies
+        run: |
+          node --input-type=module -e "
+            import { readFileSync } from 'node:fs'
+            const pkg = JSON.parse(readFileSync('package.json', 'utf8'))
+            for (const field of ['dependencies', 'peerDependencies', 'optionalDependencies']) {
+              const deps = pkg[field]
+              if (deps && Object.keys(deps).length > 0) {
+                console.error('::error::' + field + ' must stay empty for this package')
+                process.exit(1)
+              }
+            }
+            if (pkg.private === true) {
+              console.error('::error::package.json must not be private in an open-source release')
+              process.exit(1)
+            }
+            console.log('ok: no runtime dependencies, license ' + pkg.license)
+          "
+
+      - name: Assert the shipped files exist
+        run: |
+          for f in src/index.js lib/client.js cordis.patch.yml README.md LICENSE; do
+            test -f "$f" || { echo "::error::missing $f"; exit 1; }
+          done
+          echo "ok: all shipped files present"
+
+      - name: npm pack dry run
+        run: npm pack --dry-run

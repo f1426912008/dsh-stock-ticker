@@ -1,0 +1,68 @@
+# ---------------------------------------------------------------------------
+# dsh-stock-ticker
+#
+# This package ships no build step and has no runtime dependencies, so the
+# ignore list is deliberately short: dependency trees, OS/editor noise, and the
+# user-owned settings document this plugin writes beside the harness home.
+# ---------------------------------------------------------------------------
+
+# Dependencies (none are required at runtime, but a developer may install some)
+node_modules/
+.pnpm-store/
+.yarn/
+jspm_packages/
+
+# Build output and caches — nothing here is part of the published package
+dist/
+build/
+out/
+coverage/
+*.tsbuildinfo
+.eslintcache
+.cache/
+.npm/
+.parcel-cache/
+
+# Logs and diagnostics
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+logs/
+*.heapsnapshot
+*.cpuprofile
+
+# Environment and local secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# The plugin's own durable settings document. It is created at
+# $DSH_HOME/stock-ticker.json (mode 0600) when the file backing is selected and
+# holds a user's personal watchlist — it must never be committed.
+stock-ticker.json
+.dsh/
+*.tmp
+
+# OS noise
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+desktop.ini
+
+# Editors and IDEs
+.idea/
+*.iml
+*.swp
+*.swo
+*~
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json.example

@@ -1,0 +1,35 @@
+# Normalize every text file to LF in the repository and in working trees, so a
+# Windows contributor cannot introduce a whole-file diff.
+* text=auto eol=lf
+
+# Explicit types for the files this package actually ships.
+*.js    text eol=lf
+*.mjs   text eol=lf
+*.json  text eol=lf
+*.yml   text eol=lf
+*.yaml  text eol=lf
+*.md    text eol=lf
+LICENSE text eol=lf
+
+# Binary assets must never be line-ending converted.
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.webp binary
+*.ico  binary
+*.icns binary
+*.woff binary
+*.woff2 binary
+
+# lib/client.js is deliberately NOT marked linguist-generated: it is hand-authored
+# source that happens to also be the shipped artifact, and hiding it from the
+# language statistics would misrepresent the project.
+
+# Collapse the lockfile in diffs and reviews.
+pnpm-lock.yaml -diff linguist-generated=true
+package-lock.json -diff linguist-generated=true
+yarn.lock -diff linguist-generated=true
+
+# Release notes are worth reading in full.
+CHANGELOG.md merge=union

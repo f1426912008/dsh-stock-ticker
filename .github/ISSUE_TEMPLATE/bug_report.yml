@@ -1,0 +1,90 @@
+name: Bug report
+description: Report something that does not work as documented
+title: '[Bug] '
+labels: ['bug', 'needs triage']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report. The **build stamps** below are the single most valuable field — they
+        rule out a stale half immediately.
+
+        Please do not paste your whole watchlist; one symbol is usually enough to reproduce.
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What you expected, and what actually happened.
+      placeholder: |
+        I expected the curve to appear for the 7th row, but it stayed blank.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: The smallest sequence that shows the problem.
+      placeholder: |
+        1. Set maxCurves to 7
+        2. Add 7 instruments
+        3. Reload the page
+        4. Row 7 has no curve
+    validations:
+      required: true
+
+  - type: input
+    id: stamps
+    attributes:
+      label: Build stamps (前端 / 宿主)
+      description: Printed in the footer of the 股票盯盘 settings page.
+      placeholder: 前端 2026-09-30.6 · 宿主 2026-09-30.6
+    validations:
+      required: true
+
+  - type: input
+    id: dsh-version
+    attributes:
+      label: DSH version and platform
+      placeholder: DeepSeek Harness 0.2.x, macOS 15.0 (arm64)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: backing
+    attributes:
+      label: Settings backing
+      description: Which durable store the plugin resolved. See "Where configuration lives" in the README.
+      options:
+        - $DSH_HOME/stock-ticker.json (the usual case)
+        - settings namespace
+        - process memory
+        - Not sure
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Which half
+      multiple: true
+      options:
+        - Mini-window rendering
+        - Curve / sparkline
+        - Detail card on hover
+        - Window placement (drag / pin)
+        - Watchlist settings page
+        - Quotes or refresh cadence
+        - Upstream throttling / cooldown
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: Anything else
+      description: Console errors, screenshots, or a note about what you already ruled out.
+    validations:
+      required: false

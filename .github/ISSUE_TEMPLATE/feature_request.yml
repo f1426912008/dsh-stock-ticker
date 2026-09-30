@@ -1,0 +1,50 @@
+name: Feature request
+description: Suggest a capability or an improvement
+title: '[Feature] '
+labels: ['enhancement', 'needs triage']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Before you open this, please read the **Known limitations** section of the README — a few
+        ideas in this space are deliberately out of scope, with the reasoning recorded.
+
+        Note especially the hard constraints this project holds to: **zero runtime dependencies**,
+        **no build step**, and a **conservative upstream request rate**.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: What are you trying to do that the plugin makes hard or impossible today?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What you would like
+      description: Describe the behaviour you want, not necessarily the implementation.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Workarounds you tried, or other designs you rejected.
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: constraints
+    attributes:
+      label: Constraints
+      description: Confirm the request can be satisfied without breaking these.
+      options:
+        - label: This can be done without adding a runtime dependency
+          required: true
+        - label: This can be done without adding a build step
+          required: true
+        - label: This does not require raising the upstream request rate
+          required: false
