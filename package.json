@@ -1,0 +1,61 @@
+{
+  "name": "dsh-stock-ticker",
+  "version": "0.1.0",
+  "description": "Realtime stock watch mini-window for the DSH web GUI: intraday sparklines for a configurable watchlist, per-symbol detail on hover, and a settings page that manages the list.",
+  "type": "module",
+  "license": "MIT",
+  "author": "f1426912008",
+  "homepage": "https://github.com/f1426912008/dsh-stock-ticker#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/f1426912008/dsh-stock-ticker.git"
+  },
+  "bugs": {
+    "url": "https://github.com/f1426912008/dsh-stock-ticker/issues"
+  },
+  "keywords": [
+    "deepseek-harness",
+    "dsh",
+    "dsh-plugin",
+    "deepseek",
+    "plugin",
+    "stock",
+    "stock-ticker",
+    "watchlist",
+    "a-share",
+    "eastmoney",
+    "realtime",
+    "web-gui"
+  ],
+  "engines": {
+    "node": ">=20.3"
+  },
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "src",
+    "lib",
+    "cordis.patch.yml",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "check": "node --check src/index.js && node --check src/routes.js && node --check src/provider.js && node --check src/settings.js && node --check src/store.js && node --check lib/client.js"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-layout",
+        "@deepseek-ai/dsh-client-ui-settings-general"
+      ]
+    }
+  }
+}

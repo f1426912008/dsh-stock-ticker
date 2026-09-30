@@ -1,0 +1,20 @@
+# dsh-stock-ticker bundle layer.
+#
+# One row. The host half resolves the durable watchlist (through the settings
+# service when that seam is present, otherwise $DSH_HOME/stock-ticker.json) and
+# owns the same-origin /api/stock-ticker routes the browser half polls.
+#
+# The browser half is NOT a second row: `dsh.client` in package.json puts this
+# package in the window.__DSH_BOOT__ graph that the `modules` row scans, and its
+# ./client export is served from /plugins/dsh-stock-ticker/client.js.
+- insert:
+    - id: stock-ticker
+      name: dsh-stock-ticker
+
+# The package has no runtime dependencies, so this row also works when the
+# package is not installed into the profile's node_modules — name the entry file
+# by absolute path instead:
+#
+#   - insert:
+#       - id: stock-ticker
+#         name: '/absolute/path/to/dsh-stock-ticker/src/index.js'
